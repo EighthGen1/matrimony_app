@@ -1,0 +1,37 @@
+# Secrets and local environment configuration
+.env
+.env.*
+!.env.example
+*.pem
+*.p12
+*.keystore
+key.properties
+
+# Node.js
+node_modules/
+server/dist/
+npm-debug.log*
+
+# Flutter / Dart generated and local state
+.dart_tool/
+.flutter-plugins
+.flutter-plugins-dependencies
+.packages
+build/
+coverage/
+ios/Pods/
+ios/Flutter/Generated.xcconfig
+ios/Flutter/flutter_export_environment.sh
+android/.gradle/
+android/local.properties
+
+# Editor and OS files
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+
+# Client-facing quotation and launch workbooks are maintained outside this source repo
+/Anbu_Matrimony_Development_Quotation.pdf
+/Anbu_Matrimony_Production_Readiness.xlsx
+/Anbu_Matrimony_Store_Launch_Checklist.xlsx

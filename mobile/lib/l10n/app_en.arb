@@ -1,0 +1,11 @@
+{
+  "@@locale": "en",
+  "appName": "Anbu Matrimony",
+  "profile": "Profile",
+  "contactDetails": "Contact details",
+  "premiumRequired": "A 90-day Premium Pass is required to view this information.",
+  "upgrade": "View Premium Pass",
+  "profilePendingApproval": "This photo is awaiting approval.",
+  "reportProfile": "Report profile",
+  "blockProfile": "Block profile"
+}
