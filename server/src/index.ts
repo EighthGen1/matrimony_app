@@ -6,6 +6,7 @@ import { errorHandler } from "./middleware/error-handler";
 import { healthRouter } from "./routes/health";
 import { interestsRouter } from "./routes/interests";
 import { profileRouter } from "./routes/profile";
+import { safetyRouter } from "./routes/safety";
 
 const app = express();
 app.disable("x-powered-by");
@@ -17,6 +18,7 @@ app.use(cors({
 }));
 app.use(express.json({ limit: "32kb" }));
 app.use("/health", healthRouter);
+app.use("/api/v1", safetyRouter);
 app.use("/api/v1/interests", interestsRouter);
 app.use("/api/v1/profiles", profileRouter);
 app.use(errorHandler);

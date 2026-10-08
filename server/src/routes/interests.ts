@@ -43,8 +43,14 @@ interestsRouter.post("/", requireAuthenticatedUser, async (request: Authenticate
        WHERE u.id = $1
          AND u.account_status = 'active'
          AND u.deleted_at IS NULL
-         AND p.visibility = 'visible'`,
-      [receiverId],
+         AND p.visibility = 'visible'
+         AND NOT EXISTS (
+           SELECT 1
+           FROM profile_blocks b
+           WHERE (b.blocker_user_id = $2 AND b.blocked_user_id = u.id)
+              OR (b.blocker_user_id = u.id AND b.blocked_user_id = $2)
+         )`,
+      [receiverId, senderId],
     );
     if (receiver.rows.length !== 1) {
       await client.query("ROLLBACK");

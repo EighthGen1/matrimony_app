@@ -1,12 +1,14 @@
 import 'dart:async';
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 class ProfileScreenSecurity {
   ProfileScreenSecurity._();
 
-  static const MethodChannel _channel = MethodChannel('com.anbu.matrimony/screen_security');
+  static const MethodChannel _channel =
+      MethodChannel('com.anbu.matrimony/screen_security');
 
   static Future<void> enable() async {
     await _channel.invokeMethod<void>('setSecure', true);
@@ -18,9 +20,14 @@ class ProfileScreenSecurity {
 }
 
 class SecureProfileScreen extends StatefulWidget {
-  const SecureProfileScreen({required this.child, super.key});
+  const SecureProfileScreen({
+    required this.child,
+    this.enabled = true,
+    super.key,
+  });
 
   final Widget child;
+  final bool enabled;
 
   @override
   State<SecureProfileScreen> createState() => _SecureProfileScreenState();
@@ -30,16 +37,25 @@ class _SecureProfileScreenState extends State<SecureProfileScreen> {
   @override
   void initState() {
     super.initState();
-    unawaited(_setSecure(true));
+    unawaited(_setSecure(widget.enabled));
+  }
+
+  @override
+  void didUpdateWidget(covariant SecureProfileScreen oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (widget.enabled != oldWidget.enabled) {
+      unawaited(_setSecure(widget.enabled));
+    }
   }
 
   @override
   void dispose() {
-    unawaited(_setSecure(false));
+    if (widget.enabled) unawaited(_setSecure(false));
     super.dispose();
   }
 
   Future<void> _setSecure(bool enabled) async {
+    if (kIsWeb) return;
     try {
       if (enabled) {
         await ProfileScreenSecurity.enable();
@@ -51,7 +67,8 @@ class _SecureProfileScreenState extends State<SecureProfileScreen> {
         exception: error,
         stack: stackTrace,
         library: 'Anbu Matrimony profile security',
-        context: ErrorDescription('while toggling protected-screen capture behavior'),
+        context: ErrorDescription(
+            'while toggling protected-screen capture behavior'),
       ));
     }
   }
